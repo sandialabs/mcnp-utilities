@@ -441,13 +441,16 @@ if __name__ == '__main__':
         if not args.logscale and not (('Z' not in mesh_data.dims) and mesh_data.is_cyl):
           ticklabel_format(useMathText=True)
         if args.probe:
+          print('Probe values:')
           for loc in args.probe[0].split(':'):
             abcissa, ordinate = mesh_data.get_abcissa(), mesh_data.get_ordinate()
             a, o = loc.split(',')
             a, o = float(a), float(o)
             aidx, oidx = (abs(abcissa - a)).argmin(), (abs(ordinate - o)).argmin()
             ax.scatter([a], [o], marker='D', s=140, color='white', edgecolors='black')
-            ax.text(a, o, f'{mesh_data.get_value((aidx, oidx)):.1uS}', ha='center', va='center', color='black', fontsize=4)
+            probe_value = mesh_data.get_value((aidx, oidx))
+            print(f' - ({a},{o}): {probe_value}')
+            ax.text(a, o, f'{probe_value:.1uS}', ha='center', va='center', color='black', fontsize=4)
       elif len(mesh_data.data.shape) == 1:
         if not (fig and ax):
           fig, ax = subplots()
