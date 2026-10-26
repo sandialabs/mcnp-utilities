@@ -230,7 +230,7 @@ def evaluate(vname, string, vars, not_evaluated, new_allowable_fns):
   '''
   try:
     result = eval(string, new_allowable_fns, vars)
-  except NameError:
+  except:
     not_evaluated[vname] = string
     return None
 
@@ -522,7 +522,7 @@ def snake(args, quiet=False):
     for k, expr in list(deferred_constants.items()):
       try:
         result = eval(expr, new_allowable_fns, new_constants)
-      except NameError:
+      except:
         continue
 
       if result is not None:
@@ -534,7 +534,7 @@ def snake(args, quiet=False):
     for k, expr in list(deferred_permutations.items()):
       try:
         result = eval(expr, new_allowable_fns, new_constants)
-      except NameError:
+      except:
         continue
 
       if result is not None:
