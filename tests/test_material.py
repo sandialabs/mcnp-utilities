@@ -1,13 +1,7 @@
 #!/usr/bin/env python3
 
-from os.path import dirname, join as pjoin
-from yaml import safe_load
 from unittest import TestCase, main
-from mcnp_utilities.lib.materials import Isotope, Element, Material, mix_materials, zaid_to_ZA, get_isotope_mass
-
-
-with open(pjoin(dirname(__file__), '..', 'data', 'iso_ref.yaml'), 'r') as f:
-  iref = safe_load(f)
+from mcnp_utilities.lib.materials import Isotope, Element, Material, mix_materials, zaid_to_ZA, get_isotope_mass, _ISO_REF
 
 
 class TestIsotope(TestCase):
@@ -41,7 +35,7 @@ class TestIsotope(TestCase):
 
   def test_mass(self):
     isotope = Isotope('8016')
-    self.assertAlmostEqual(isotope.get_mass(), iref[8]['isotopes'][16]['atomic mass'], places=4)
+    self.assertAlmostEqual(isotope.get_mass(), _ISO_REF[8]['isotopes'][16]['atomic mass'], places=4)
 
   def test_name(self):
     isotope = Isotope('8016')
@@ -52,11 +46,11 @@ class TestElement(TestCase):
   def test_initialization(self):
     element = Element(8)
     self.assertEqual(element.Z, 8)
-    for A in iref[8]['isotopes']:
+    for A in _ISO_REF[8]['isotopes']:
       self.assertIn(A, element.isotope_list)
-      self.assertAlmostEqual(element.atom_fractions[A], iref[8]['isotopes'][A]['atom fraction'])
-      self.assertAlmostEqual(element.weight_fractions[A], iref[8]['isotopes'][A]['mass fraction'])
-    self.assertEqual(element.name, iref[8]['name'])
+      self.assertAlmostEqual(element.atom_fractions[A], _ISO_REF[8]['isotopes'][A]['atom fraction'])
+      self.assertAlmostEqual(element.weight_fractions[A], _ISO_REF[8]['isotopes'][A]['mass fraction'])
+    self.assertEqual(element.name, _ISO_REF[8]['name'])
     self.assertEqual(element.zaid, '8000')
     self.assertFalse(element.exclusion_list)
 
@@ -68,10 +62,10 @@ class TestElement(TestCase):
       element = Element(435)
 
     element = Element(8, atom_fractions=example_fs)
-    self.assertAlmostEqual(element.get_mass(), 0.5 * iref[8]['isotopes'][16]['atomic mass'] + 0.5 * iref[8]['isotopes'][17]['atomic mass'])
+    self.assertAlmostEqual(element.get_mass(), 0.5 * _ISO_REF[8]['isotopes'][16]['atomic mass'] + 0.5 * _ISO_REF[8]['isotopes'][17]['atomic mass'])
 
     element = Element(8, weight_fractions=example_fs)
-    self.assertAlmostEqual(element.get_mass(), 1.0 / sum([f / iref[8]['isotopes'][A]['atomic mass'] for A, f in example_fs.items()]))
+    self.assertAlmostEqual(element.get_mass(), 1.0 / sum([f / _ISO_REF[8]['isotopes'][A]['atomic mass'] for A, f in example_fs.items()]))
 
   def test_mass(self):
     element = Element(8)
@@ -91,7 +85,7 @@ class TestMaterial(TestCase):
       self.assertAlmostEqual(material.nuclide_atom_fractions[k], 0.5)
     for k, v in nucs.items():
       self.assertAlmostEqual(material.nuclide_weight_fractions[k], v * get_isotope_mass(k) / material.get_molar_mass())
-    self.assertAlmostEqual(material.get_molar_mass(), 0.5 * iref[6]['isotopes'][12]['atomic mass'] + 0.5 * iref[8]['isotopes'][16]['atomic mass'])
+    self.assertAlmostEqual(material.get_molar_mass(), 0.5 * _ISO_REF[6]['isotopes'][12]['atomic mass'] + 0.5 * _ISO_REF[8]['isotopes'][16]['atomic mass'])
 
   def test_initialization_add(self):
     nucs = {'6012' : 0.5, '8016' : 0.5}
@@ -104,18 +98,18 @@ class TestMaterial(TestCase):
       self.assertAlmostEqual(material.nuclide_atom_fractions[k], 0.5)
     for k, v in nucs.items():
       self.assertAlmostEqual(material.nuclide_weight_fractions[k], v * get_isotope_mass(k) / material.get_molar_mass())
-    self.assertAlmostEqual(material.get_molar_mass(), 0.5 * iref[6]['isotopes'][12]['atomic mass'] + 0.5 * iref[8]['isotopes'][16]['atomic mass'])
+    self.assertAlmostEqual(material.get_molar_mass(), 0.5 * _ISO_REF[6]['isotopes'][12]['atomic mass'] + 0.5 * _ISO_REF[8]['isotopes'][16]['atomic mass'])
 
   def test_split(self):
     material = Material('atom', nuclides={'8000' : 1.0})
     material.split_elements()
-    self.assertEqual(len(material.nuclides), len(iref[8]['isotopes']))
+    self.assertEqual(len(material.nuclides), len(_ISO_REF[8]['isotopes']))
     for k, v in material.nuclide_atom_fractions.items():
       Z, A = zaid_to_ZA(k)
-      self.assertAlmostEqual(v, iref[Z]['isotopes'][A]['atom fraction'])
+      self.assertAlmostEqual(v, _ISO_REF[Z]['isotopes'][A]['atom fraction'])
     for k, v in material.nuclide_weight_fractions.items():
       Z, A = zaid_to_ZA(k)
-      self.assertAlmostEqual(v, iref[Z]['isotopes'][A]['mass fraction'])
+      self.assertAlmostEqual(v, _ISO_REF[Z]['isotopes'][A]['mass fraction'])
 
   def test_combine(self):
     nucs = {'8016' : 0.5, '8017' : 0.5}

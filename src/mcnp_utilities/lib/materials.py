@@ -9,7 +9,7 @@ from mcnp_utilities.lib.tables import PrintedTable, to_latex_scientific_notation
 
 
 with open(pjoin(dirname(__file__), '..', 'data', 'iso_ref.yaml'), 'r') as f:
-  iso_ref = safe_load(f)
+  _ISO_REF = safe_load(f)
 
 def zaid_to_ZA(zaid_str) -> tuple[int, int]:
   return int(zaid_str[:-3]), int(zaid_str[-3:])
@@ -24,19 +24,19 @@ class Isotope:
   def __init__(self, id_str):
     if id_str.isnumeric():
       self.Z, self.A = zaid_to_ZA(id_str)
-      if self.Z in iso_ref:
-        if self.A not in iso_ref[self.Z]['isotopes']:
+      if self.Z in _ISO_REF:
+        if self.A not in _ISO_REF[self.Z]['isotopes']:
           raise AssertionError(f'Isotope {self.Z}-{self.A} not in database!')
         else:
-          self.name = f'{iso_ref[self.Z]["name"]}-{self.A}'
+          self.name = f'{_ISO_REF[self.Z]["name"]}-{self.A}'
       else:
         raise AssertionError(f'Element {self.Z} not in database!')
     else:
       symbol_or_name, self.A = id_str.split('-')[0], int(id_str.split('-')[1])
-      for z in iso_ref:
-        if iso_ref[z]['name'].lower() == symbol_or_name.lower() or iso_ref[z]['symbol'].lower() == symbol_or_name.lower():
-          if self.A in iso_ref[z]['isotopes']:
-            self.Z, self.name = int(z), f'{iso_ref[z]["name"]}-{self.A}'
+      for z in _ISO_REF:
+        if _ISO_REF[z]['name'].lower() == symbol_or_name.lower() or _ISO_REF[z]['symbol'].lower() == symbol_or_name.lower():
+          if self.A in _ISO_REF[z]['isotopes']:
+            self.Z, self.name = int(z), f'{_ISO_REF[z]["name"]}-{self.A}'
             break
           else:
             raise AssertionError(f'Isotope {symbol_or_name}-{self.A} not in database!')
@@ -46,7 +46,7 @@ class Isotope:
 
   def get_mass(self):
     Z, A = zaid_to_ZA(self.zaid)
-    return iso_ref[Z]['isotopes'][A]['atomic mass']
+    return _ISO_REF[Z]['isotopes'][A]['atomic mass']
 
   def __repr__(self):
     return self.name
@@ -59,10 +59,10 @@ class Element:
     if atom_fractions and weight_fractions:
       raise AssertionError('Cannot pass both atom and weight fractions to Element initialization!')
 
-    if self.Z not in iso_ref:
+    if self.Z not in _ISO_REF:
       raise AssertionError(f'Element {self.Z} not in database!')
     else:
-      self.name = iso_ref[self.Z]['name']
+      self.name = _ISO_REF[self.Z]['name']
 
     self.zaid = ZA_to_zaid(self.Z, 0)
     self.exclusion_list = exclusion_list
@@ -109,19 +109,19 @@ class Element:
     return self.name
 
 def get_natural_isotopes(Z):
-  return [k for k in iso_ref[Z]['isotopes'] if 'atom fraction' in iso_ref[Z]['isotopes'][k]]
+  return [k for k in _ISO_REF[Z]['isotopes'] if 'atom fraction' in _ISO_REF[Z]['isotopes'][k]]
 
 def get_mass_fraction(zaid):
   Z, A = zaid_to_ZA(zaid)
-  return iso_ref[Z]['isotopes'][A]['mass fraction']
+  return _ISO_REF[Z]['isotopes'][A]['mass fraction']
 
 def get_atom_fraction(zaid):
   Z, A = zaid_to_ZA(zaid)
-  return iso_ref[Z]['isotopes'][A]['atom fraction']
+  return _ISO_REF[Z]['isotopes'][A]['atom fraction']
 
 def get_isotope_mass(zaid):
   Z, A = zaid_to_ZA(zaid)
-  return iso_ref[Z]['isotopes'][A]['atomic mass']
+  return _ISO_REF[Z]['isotopes'][A]['atomic mass']
 
 def wf_to_af(iso, wf_dict, weight_dict):
   return (wf_dict[iso] / weight_dict[iso]) / (sum([wf_dict[isotope] / weight_dict[isotope] for isotope in wf_dict]))
@@ -130,8 +130,8 @@ def af_to_wf(iso, af_dict, weight_dict):
   return (af_dict[iso] * weight_dict[iso]) / (sum([af_dict[isotope] * weight_dict[isotope] for isotope in af_dict]))
 
 def str_to_Z(symbol_or_name):
-  for z in iso_ref:
-    if iso_ref[z]['name'].lower() == symbol_or_name.lower() or iso_ref[z]['symbol'].lower() == symbol_or_name.lower():
+  for z in _ISO_REF:
+    if _ISO_REF[z]['name'].lower() == symbol_or_name.lower() or _ISO_REF[z]['symbol'].lower() == symbol_or_name.lower():
       return z
   else:
     raise AssertionError(f'Element {symbol_or_name} not in database!')
