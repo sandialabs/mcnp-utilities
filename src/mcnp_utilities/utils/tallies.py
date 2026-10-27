@@ -113,7 +113,7 @@ def get_all_tallies(flines):
 def get_tally_test_results(flines):
   return {tally_num : get_test_result(tally_num, flines) for tally_num in get_tally_numbers(flines)}
 
-if __name__ == '__main__':
+def main():
   file_dicts, (argp, args) = {}, get_arguments()
   for i, fyle in enumerate(args.files):
     print(f'File: {fyle[0]}')
@@ -147,3 +147,6 @@ if __name__ == '__main__':
                   else:
                     print(f'        energy {e} : {(data/keff):.1uS}')
         print(f'  Tests passed for tally #{tally}: {get_test_result(tally, lines)}')
+
+if __name__ == '__main__':
+  main()

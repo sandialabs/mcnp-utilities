@@ -437,7 +437,7 @@ def error_check(argp, argo):
       if len(o) != n_files:
         argp.error(f'Number of {s} file prefixes ({len(o)}) is not equal to the number of files ({n_files})!')
 
-if __name__ == "__main__":
+def main():
   aparser, args = getArguments()
   error_check(aparser, args)
   args.names = {f : [[f'{t}-{c}' for c in args.cells[j][i]] for i, t in enumerate(args.tallies[j])] for j, f in enumerate(args.file)} if args.names is None else {f : [args.names[j][i] for i, _ in enumerate(args.tallies[j])] for j, f in enumerate(args.file)}
@@ -488,3 +488,6 @@ if __name__ == "__main__":
     [write_excel(cores[f], f'{e}.xlsx') for f, e in zip(args.file, args.excel)]
   if args.hdf5:
     [write_hdf5(cores[f], f'{h}.h5') for f, h in zip(args.file, args.hdf5)]
+
+if __name__ == '__main__':
+  main()

@@ -42,6 +42,8 @@ def process_file(fpath,delete):
     remove(fpath)
 
 def main():
+  freeze_support()
+
   args = get_arguments()
   mesh_files = [
     path_join(root, name)
@@ -53,5 +55,4 @@ def main():
     pool.starmap(process_file,[(f,args.delete) for f in mesh_files])
 
 if __name__ == '__main__':
-  freeze_support()
   main()

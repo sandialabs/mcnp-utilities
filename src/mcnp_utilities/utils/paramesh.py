@@ -243,7 +243,10 @@ def get_arguments():
   )
   return parser.parse_args()
 
-def main(args):
+def main():
+  freeze_support()
+
+  args = get_arguments()
   if (args.processes > args.numfiles):
     print(f'Only {args.numfiles} process(es) will be utilized.\n')
     args.processes = args.numfiles
@@ -257,5 +260,4 @@ def main(args):
     run_paramesh(f, args.processes, args.numfiles)
 
 if __name__ == '__main__':
-  freeze_support()
-  main(get_arguments())
+  main()

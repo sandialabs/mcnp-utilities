@@ -11,3 +11,5 @@ __pycache__
 *.snm
 doc/slides/mcnp-utilities.pdf
 .DS_Store
+*.egg-info
+build

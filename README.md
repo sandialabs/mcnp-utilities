@@ -22,8 +22,29 @@ All software and files in this distribution fall under this license.
 ## Setup
 
 It is recommended to create a new conda environment for use with this library of utilities.
-A conda environment file is available in `env/environment.yaml`.
+A conda environment file is available in `environment.yaml`.
 To initialize the conda environment and download the requisite packages, run:
 ```
-conda env create -f env/environment.yaml -n mcnp-utilities
+conda env create -f environment.yaml
 ```
+This will make the following tools available:
+ - compare-spectra
+ - compute-asym
+ - compute-pf
+ - compute-tmp
+ - convert-all-meshtal-to-h5
+ - crop-mcnp-plot
+ - dose-scalar
+ - extract-spectrum
+ - get-rx
+ - iso
+ - mcnp-clean
+ - meshtal-to-h5
+ - paramesh
+ - plot-meshtal
+ - plot-spectra
+ - probe-meshtal
+ - process-delayed
+ - snake
+ - steadystate
+ - tallies

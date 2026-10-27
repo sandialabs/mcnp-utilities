@@ -139,7 +139,10 @@ def get_arguments():
   )
   return parser,parser.parse_args()
 
-if __name__ == '__main__':
+def main():
   aparser, args = get_arguments()
   args.output = f'{args.file}.h5' if not args.output else args.output
   write_file(args.output,args.file,procs=args.processes)
+
+if __name__ == '__main__':
+  main()

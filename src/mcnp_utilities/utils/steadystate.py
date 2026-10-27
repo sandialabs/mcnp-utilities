@@ -585,7 +585,10 @@ def MCNP_Clean():
     if any([file.startswith(prefix) for prefix in ['comou', 'out', 'runtp', 'srct', 'meshta']]) or any([s in file for s in ['_st_', '_case_']]):
       remove(file)
 # -----------------------------------------------------------------------------
-if __name__ == '__main__':
+def main():
   print(steadystate_title_text)
   Steadystate(Steadystate_Input_Parser())
+# -----------------------------------------------------------------------------
+if __name__ == '__main__':
+  main()
 # -----------------------------------------------------------------------------

@@ -14,7 +14,7 @@ def get_arguments():
   )
   return parser.parse_args()
 
-if __name__ == '__main__':
+def main():
   args = get_arguments()
   reader, writer = PdfReader(args.pdf), PdfWriter()
 
@@ -28,3 +28,6 @@ if __name__ == '__main__':
 
   with open(args.pdf, "wb") as fp:
     writer.write(fp)
+
+if __name__ == '__main__':
+  main()

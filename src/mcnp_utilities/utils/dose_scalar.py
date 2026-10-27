@@ -38,7 +38,7 @@ def get_arguments():
   return parser.parse_args()
 
 
-if __name__ == '__main__':
+def main():
   # Process arguments
   args = get_arguments()
   # Load isotope molar masses (relative to neutron mass)
@@ -51,3 +51,6 @@ if __name__ == '__main__':
   # Print the FM muliplier for the material to obtain dose in rad/(MW-hr)
   print(f'{N_A * s_in_hr * C * MeVg_to_rad * cm2_in_b / M_mix:.6E} [rad[material]/(MW*hr)]')
   print(f'{N_A * C * MeVg_to_rad * cm2_in_b / M_mix:.6E} [rad[material]/MJ]')
+
+if __name__ == '__main__':
+  main()

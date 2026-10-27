@@ -142,7 +142,7 @@ def parse_arguments():
   )
   return parser.parse_args()
 
-if __name__ == '__main__':
+def main():
   args = parse_arguments()
   mat_level = 0
   if isfile(args.zaid_pairs):
@@ -176,3 +176,6 @@ if __name__ == '__main__':
     mat.write_latex_table(args.table[0], [c for c in args.table[1].split(',')])
 
   print(f'Mixture molar mass (per atom): {mat.get_molar_mass():g} g/mol')
+
+if __name__ == '__main__':
+  main()

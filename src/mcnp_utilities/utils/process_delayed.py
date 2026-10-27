@@ -107,7 +107,7 @@ def get_kcode_tally(file_name, tally_number):
             v, u = float(tline[0]), float(tline[1])
             return ufloat(v, v * u)
 
-if __name__ == '__main__':
+def main():
   argp, args = get_arguments()
   sdef_delayed, sdef_prompt = (get_time_tally(f, args.tally_number) for f in [args.sdef_delayed, args.sdef_no_delayed])
   kcode = get_kcode_tally(args.kcode_results, args.tally_number)
@@ -125,3 +125,6 @@ if __name__ == '__main__':
     ax.set_ylim([0, max(plot_vals)])
     ax.grid()
     plt.savefig(args.plot[0], bbox_inches='tight')
+
+if __name__ == '__main__':
+  main()

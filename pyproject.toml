@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcnp-utilities"
+version = "1.0.0"
+description = "A collection of MCNP utilities"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "APACHE 2.0" }
+authors = [
+  { name = "Zack Dodson" }
+]
+dependencies = [
+  "h5py",
+  "matplotlib",
+  "numpy",
+  "pandas",
+  "polars",
+  "pyevtk",
+  "pypdf",
+  "pyyaml",
+  "uncertainties"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["mcnp_utilities.utils", "mcnp_utilities.lib"]
+
+[tool.setuptools.package-data]
+mcnp_utilities = ["data/*"]
+
+[project.scripts]
+compare-spectra           = "mcnp_utilities.utils.compare_spectra:main"
+compute-asym              = "mcnp_utilities.utils.compute_asym:main"
+compute-pf                = "mcnp_utilities.utils.compute_pf:main"
+compute-tmp               = "mcnp_utilities.utils.compute_tmp:main"
+convert-all-meshtal-to-h5 = "mcnp_utilities.utils.convert_all_meshtal_to_h5:main"
+crop-mcnp-plot            = "mcnp_utilities.utils.crop_mcnp_plot:main"
+dose-scalar               = "mcnp_utilities.utils.dose_scalar:main"
+extract-spectrum          = "mcnp_utilities.utils.extract_spectrum:main"
+get-rx                    = "mcnp_utilities.utils.get_rx:main"
+iso                       = "mcnp_utilities.utils.iso:main"
+mcnp-clean                = "mcnp_utilities.utils.mcnp_clean:main"
+meshtal-to-h5             = "mcnp_utilities.utils.meshtal_to_h5:main"
+paramesh                  = "mcnp_utilities.utils.paramesh:main"
+plot-meshtal              = "mcnp_utilities.utils.plot_meshtal:main"
+plot-spectra              = "mcnp_utilities.utils.plot_spectra:main"
+probe-meshtal             = "mcnp_utilities.utils.probe_meshtal:main"
+process-delayed           = "mcnp_utilities.utils.process_delayed:main"
+snake                     = "mcnp_utilities.utils.snake:main"
+steadystate               = "mcnp_utilities.utils.steadystate:main"
+tallies                   = "mcnp_utilities.utils.tallies:main"

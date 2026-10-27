@@ -67,7 +67,7 @@ def meshtal_probe(meshtal_file, tally, iloc, jloc, kloc, eloc=None) -> UFloat:
 
   return ufloat(data_value, data_value * rel_err)
 
-if __name__ == '__main__':
+def main():
   args = get_arguments()
   locs = args.location.split(',')
   if len(locs) == 4:
@@ -80,3 +80,6 @@ if __name__ == '__main__':
     print(f'{meshtal_probe(fyle, tally_number, iloc, jloc, kloc, eloc=eloc) * args.scalar:.1uS}')
   elif len(locs) == 3:
     print(f'{meshtal_probe(fyle, tally_number, iloc, jloc, kloc) * args.scalar:.1uS}')
+
+if __name__ == '__main__':
+  main()

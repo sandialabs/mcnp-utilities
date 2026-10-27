@@ -44,6 +44,9 @@ def getArguments():
   )
   return parser,parser.parse_args()
 
-if __name__ == '__main__':
+def main():
   argp, args = getArguments()
   print(f'TMP={getConverter(args.unit)(args.temp):.5E}')
+
+if __name__ == '__main__':
+  main()

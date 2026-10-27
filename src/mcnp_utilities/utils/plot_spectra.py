@@ -89,7 +89,7 @@ def read_tally_file(file_name: str) -> SpectrumTally:
   with open(file_name, 'rb') as f:
     return load(f)
 
-if __name__ == '__main__':
+def main():
   set_plot_params()
   argp, args = get_arguments()
   if args.colors:
@@ -158,3 +158,6 @@ if __name__ == '__main__':
 
   ax.ticklabel_format(axis='y', useMathText=True)
   fig.savefig(args.output_name, bbox_inches='tight')
+
+if __name__ == '__main__':
+  main()

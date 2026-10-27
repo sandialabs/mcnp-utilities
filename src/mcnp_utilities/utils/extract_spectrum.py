@@ -61,7 +61,7 @@ def get_arguments():
   )
   return parser.parse_args()
 
-if __name__ == '__main__':
+def main():
   args = get_arguments()
   with open(args.tally_path[0], 'r', errors='ignore') as fout, open(args.output_file, 'wb') as fspec:
     if not args.manual:
@@ -83,3 +83,6 @@ if __name__ == '__main__':
         data.append(d)
         stddevs.append(s)
       dump(SpectrumTally(energies, data, stddevs, 1.0), fspec)
+
+if __name__ == '__main__':
+  main()

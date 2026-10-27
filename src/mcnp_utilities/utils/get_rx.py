@@ -86,7 +86,7 @@ def getArguments():
   )
   return parser.parse_args()
 
-if __name__ == '__main__':
+def main():
   args = getArguments()
   if args.excel and not isdir(args.path):
     print('Excel file will not be written because path is not a directory!')
@@ -111,3 +111,6 @@ if __name__ == '__main__':
         for k, v in zip(ddict.keys(), [f, f'{rdict["keff"]:.1uS}', f'{rdict["beff"]:.1uS}', f'{rdict["rho"]:.1uS}', f'{rdict["rho"]-ref_rho:.1uS}' if args.reference else None]):
           ddict[k].append(v)
       DataFrame(ddict).to_excel(f'{args.excel}.xlsx', index=False)
+
+if __name__ == '__main__':
+  main()

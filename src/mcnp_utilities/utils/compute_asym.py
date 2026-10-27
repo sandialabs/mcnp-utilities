@@ -3,7 +3,8 @@
 from numpy import empty, asarray, size, sqrt
 from multiprocessing import Pool, freeze_support
 from h5py import File as h5file
-
+from argparse import ArgumentParser
+from mcnp_utilities.utils.get_rx import get_keff
 
 class Dataset:
   def __init__(self, data, energy_ub, total=None):
@@ -70,6 +71,8 @@ def get_arguments():
   return parser.parse_args()
 
 def main():
+  freeze_support()
+
   args = get_arguments()
   dv = get_keff(args.divide_keff).nominal_value if args.divide_keff else 1.0
   tnums = args.tally_number.split(',')
@@ -82,9 +85,5 @@ def main():
     print('-'*15 + 5*('+' + '-'*15) + '+' + '-'*14)
     [print('{:^15}|{:^15.5E}|{:^15.5E}|{:^15.5E}|{:^15.5E}|{:^15.5E}|{:^15.5E}'.format(k,*v)) for k, v in res.items()]
 
-if __name__=="__main__":
-  from mcnp_utilities.utils.get_rx import get_keff
-  from argparse import ArgumentParser
-
-  freeze_support()
+if __name__ == '__main__':
   main()

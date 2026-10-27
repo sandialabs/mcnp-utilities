@@ -314,7 +314,7 @@ def get_arguments() -> Namespace:
   )
   return parser.parse_args()
 
-if __name__ == '__main__':
+def main():
   set_plot_params()
   args, fig, ax = get_arguments(), None, None
   if args.threshold and args.logscale:
@@ -510,3 +510,6 @@ if __name__ == '__main__':
   if this_label:
     ax.legend()
   fig.savefig(args.output, bbox_inches='tight', transparent=True)
+
+if __name__ == '__main__':
+  main()

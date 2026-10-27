@@ -121,7 +121,7 @@ def get_arguments():
   )
   return parser, parser.parse_args()
 
-if __name__ == '__main__':
+def main():
   argp, args = get_arguments()
   if args.plots:
     if len(args.plots) != (len(args.files) - 1):
@@ -133,3 +133,6 @@ if __name__ == '__main__':
       argp.error(f'Number of plot file names {(len(args.plots))} is not equal to the number of plot labels ({len(args.labels)})!')
 
   compare_spectra([read_tally_file(s) for s in args.files], args.plots, args.labels, args.absolute, args.xlims, args.ylims)
+
+if __name__ == '__main__':
+  main()

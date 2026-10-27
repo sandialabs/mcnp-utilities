@@ -624,5 +624,8 @@ def snake(args, quiet=False):
   if not quiet:
     print(f'{linesep*2}All {nfiles} files successfully created.')
 
-if __name__ == '__main__':
+def main():
   snake(get_arguments())
+
+if __name__ == '__main__':
+  main()
