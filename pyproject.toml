@@ -30,7 +30,7 @@ include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["mcnp_utilities.utils", "mcnp_utilities.lib"]
+include = ["mcnp_utilities*"]
 
 [tool.setuptools.package-data]
 mcnp_utilities = ["data/*"]
