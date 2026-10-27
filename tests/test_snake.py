@@ -59,9 +59,10 @@ class TestSnake(TestCase):
         lines = f.readlines()
         if not isinstance(expected_content, list):
           raise TypeError("Expected content must be a list")
-        self.assertEqual(len(expected_content), len(lines))
+        n_lines_expected, n_lines_output = len(expected_content), len(lines)
+        self.assertEqual(n_lines_expected, n_lines_output, msg=f'Number of lines in reference ({n_lines_expected}) does not match output ({n_lines_output})!')
         for i, expected_line in enumerate(expected_content):
-          self.assertEqual(expected_line.strip(), lines[i].strip())
+          self.assertEqual(expected_line.strip(), lines[i].strip(), msg=f'Line {i+1} does not match output!')
 
   def test_external_usage(self):
     """
@@ -188,7 +189,11 @@ class TestSnake(TestCase):
     snake(args, quiet=True)
 
     self.checkAnswers({
-      'test-multi-pass_0' : ['value = 3']
+      'test-multi-pass_0' : [
+        'a = 2',
+        'b = 3',
+        'c = 6'
+      ]
     })
 
   def test_noniterable_key(self):
@@ -261,6 +266,22 @@ class TestSnake(TestCase):
 
     with self.assertRaises(ValueError):
       snake(args, quiet=True)
+
+  def test_no_keys(self):
+    """
+    Docstring for test_no_keys
+
+    Tests output when no keys are present.
+    """
+    args = InputArgs(pjoin(input_dir, 'test-no-keys.snake'))
+    snake(args, quiet=True)
+
+    self.checkAnswers({
+      'test-no-keys_' : [
+        'a = 2',
+        'b = 8'
+      ]
+    })
 
 if __name__ == '__main__':
   main()
