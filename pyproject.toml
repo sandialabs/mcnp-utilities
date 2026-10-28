@@ -8,9 +8,14 @@ version = "1.0.0"
 description = "A collection of MCNP utilities"
 readme = "README.md"
 requires-python = ">=3.9"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent"
+]
 license = { text = "APACHE 2.0" }
+license-files = ["LICENSE.txt"]
 authors = [
-  { name = "Zack Dodson" }
+  { name = "Zackary Dodson", email="zgdodso@sandia.gov" }
 ]
 dependencies = [
   "h5py",
@@ -56,3 +61,7 @@ process-delayed           = "mcnp_utilities.utils.process_delayed:main"
 snake                     = "mcnp_utilities.utils.snake:main"
 steadystate               = "mcnp_utilities.utils.steadystate:main"
 tallies                   = "mcnp_utilities.utils.tallies:main"
+
+[project.urls]
+Homepage = "https://github.com/sandialabs/mcnp-utilities"
+Issues = "https://github.com/sandialabs/mcnp-utilities/issues"
