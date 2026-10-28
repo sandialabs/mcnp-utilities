@@ -27,6 +27,10 @@ To initialize the conda environment and download the requisite packages, run:
 ```
 conda env create -f environment.yaml
 ```
+To install via pip:
+```
+pip install git+https://github.com/sandialabs/mcnp-utilities.git
+```
 This will make the following tools available:
  - compare-spectra
  - compute-asym
