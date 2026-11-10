@@ -132,7 +132,7 @@ class PrintedTable:
       label_indentifier:       str  = 'tab',
       table_placement_options: str  = '!htbp',
       table_type:              str  = 'builtin',
-      hlines:                  bool = True,
+      hlines:                  bool = False,
       outer_box:               bool = False,
       bold_headers:            bool = False,
       stretch:                 str  = '',
@@ -155,6 +155,10 @@ class PrintedTable:
     if bold_headers:
       self.bold_headers()
     bar_str, lines = r" \hline" if hlines else "", []
+    if table_type == 'booktabs':
+      if hlines:
+        print('Warning: Argument "hlines" is ignored for booktabs tables!')
+      bar_str = ""
 
     indent_level = 0
 
@@ -174,7 +178,7 @@ class PrintedTable:
     if resize is not None:
       lines.append(f'{" " * indentation_size * indent_level}\\resizebox{{{resize}\\textwidth}}{{!}}{{%')
       indent_level += 1
-    lines.append(f'{" " * indentation_size * indent_level}\\begin{{{tabular_env}}}{"" if not tabular_env_opts else f"[{tabular_env_opts}]"}{{{("|" if outer_box else "") + "|".join([alignment_map[al] for al in self.alignment]) + ("|" if outer_box else "")}}}')
+    lines.append(f'{" " * indentation_size * indent_level}\\begin{{{tabular_env}}}{"" if not tabular_env_opts else f"[{tabular_env_opts}]"}{{{("|" if outer_box else "") + ("|" if table_type == "builtin" else "").join([alignment_map[al] for al in self.alignment]) + ("|" if outer_box else "")}}}')
     indent_level += 1
     if table_type == 'booktabs':
       lines.append(f'{" " * indentation_size * indent_level}\\toprule')
@@ -212,7 +216,7 @@ class PrintedTable:
       indentation_size:      int  = 2,
       label_indentifier:     str  = 'stab',
       table_type:            str  = 'builtin',
-      hlines:                bool = True,
+      hlines:                bool = False,
       outer_box:             bool = False,
       bold_headers:          bool = False,
       stretch:               str  = '',
@@ -233,6 +237,10 @@ class PrintedTable:
     if bold_headers:
       self.bold_headers()
     bar_str, lines = r" \hline" if hlines else "", []
+    if table_type == 'booktabs':
+      if hlines:
+        print('Warning: Argument "hlines" is ignored for booktabs tables!')
+      bar_str = ""
 
     lines.append(f'\\begin{{subtable}}[*]{{{width}}}')
     if stretch:
@@ -242,7 +250,7 @@ class PrintedTable:
       lines.append(fr'  \caption{{{self.title}}}')
     if label:
       lines.append(rf'  \label{{{label_indentifier}:{label}}}')
-    lines.append(f'  \\begin{{{tabular_env}}}{"" if not tabular_env_opts else f"[{tabular_env_opts}]"}{{{("|" if outer_box else "") + "|".join([alignment_map[al] for al in self.alignment]) + ("|" if outer_box else "")}}}')
+    lines.append(f'  \\begin{{{tabular_env}}}{"" if not tabular_env_opts else f"[{tabular_env_opts}]"}{{{("|" if outer_box else "") + ("|" if table_type == "builtin" else "").join([alignment_map[al] for al in self.alignment]) + ("|" if outer_box else "")}}}')
     if table_type == 'booktabs':
       lines.append(r'    \toprule')
     elif outer_box:
@@ -270,7 +278,7 @@ class PrintedTable:
       label_indentifier:       str  = 'tab',
       table_placement_options: str  = 'c',
       table_type:              str  = 'builtin',
-      hlines:                  bool = True,
+      hlines:                  bool = False,
       outer_box:               bool = False,
       bold_headers:            bool = False,
       copy_headers:            bool = False,
@@ -292,8 +300,12 @@ class PrintedTable:
     if bold_headers:
       self.bold_headers()
     bar_str, lines = r" \hline" if hlines else "", []
+    if table_type == 'booktabs':
+      if hlines:
+        print('Warning: Argument "hlines" is ignored for booktabs tables!')
+      bar_str = ""
 
-    lines.append(f'\\begin{{longtable}}{f"[{table_placement_options}]" if table_placement_options else ""}{{{("|" if outer_box else "") + "|".join([alignment_map[al] for al in self.alignment]) + ("|" if outer_box else "")}}}')
+    lines.append(f'\\begin{{longtable}}{f"[{table_placement_options}]" if table_placement_options else ""}{{{("|" if outer_box else "") + ("|" if table_type == "builtin" else "").join([alignment_map[al] for al in self.alignment]) + ("|" if outer_box else "")}}}')
     if stretch:
       lines.append(rf'  \renewcommand{{\arraystretch}}{{{stretch}}}')
     lines.append(rf'  \centering')
