@@ -172,9 +172,10 @@ class PrintedTable:
         lines.append(rf'{" " * indentation_size * indent_level}\renewcommand{{\arraystretch}}{{{stretch}}}')
       lines.append(rf'{" " * indentation_size * indent_level}\centering')
       if self.title:
-        lines.append(fr'{" " * indentation_size * indent_level}\caption{{{self.title}}}')
-      if label:
-        lines.append(rf'{" " * indentation_size * indent_level}\label{{{label_indentifier}:{label}}}')
+        lines.append(fr'{" " * indentation_size * indent_level}\caption{{{self.title}}}' + (fr'\label{{{label_indentifier}:{label}}}' if label else ''))
+      else:
+        if label:
+          lines.append(rf'{" " * indentation_size * indent_level}\label{{{label_indentifier}:{label}}}')
     if resize is not None:
       lines.append(f'{" " * indentation_size * indent_level}\\resizebox{{{resize}\\textwidth}}{{!}}{{%')
       indent_level += 1
@@ -247,9 +248,10 @@ class PrintedTable:
       lines.append(rf'  \renewcommand{{\arraystretch}}{{{stretch}}}')
     lines.append(rf'  \centering')
     if self.title:
-      lines.append(fr'  \caption{{{self.title}}}')
-    if label:
-      lines.append(rf'  \label{{{label_indentifier}:{label}}}')
+      lines.append(fr'  \caption{{{self.title}}}' + (fr'\label{{{label_indentifier}:{label}}}' if label else ''))
+    else:
+      if label:
+        lines.append(rf'  \label{{{label_indentifier}:{label}}}')
     lines.append(f'  \\begin{{{tabular_env}}}{"" if not tabular_env_opts else f"[{tabular_env_opts}]"}{{{("|" if outer_box else "") + ("|" if table_type == "builtin" else "").join([alignment_map[al] for al in self.alignment]) + ("|" if outer_box else "")}}}')
     if table_type == 'booktabs':
       lines.append(r'    \toprule')
@@ -310,9 +312,10 @@ class PrintedTable:
       lines.append(rf'  \renewcommand{{\arraystretch}}{{{stretch}}}')
     lines.append(rf'  \centering')
     if self.title:
-      lines.append(fr'  \caption{{{self.title}}}')
-    if label:
-      lines.append(rf'  \label{{{label_indentifier}:{label}}}')
+      lines.append(fr'  \caption{{{self.title}}}' + (fr'\label{{{label_indentifier}:{label}}}' if label else ''))
+    else:
+      if label:
+        lines.append(rf'  \label{{{label_indentifier}:{label}}}')
     if table_type == 'booktabs':
       lines.append(r'  \toprule')
     elif outer_box:
